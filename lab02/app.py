@@ -15,6 +15,7 @@ app = Flask(__name__)
 #########################
 current_user = CurrentUser(first_name='Erick', last_name='Rubi', email='erub03@gmail.com', username='erub03')
 
+
 quotes = (
     '“We May Encounter Many Defeats But We Must Not Be Defeated.” – Maya Angelou',
     '“The Way Get Started Is To Quit Talking And Begin Doing.” – Walt Disney',
@@ -25,12 +26,13 @@ quotes = (
     '“If You Are Working On Something That You Really Care About, You Don’t Have To Be Pushed. The Vision Pulls You.” – Steve Jobs',
 )
 
+
 ##############
 # Exercise 1 #
 ##############
 @app.route('/')
 def exercise1():
-    return 'Hello World!'
+    return 'Hello Josh!!'
 
 
 ##############
@@ -40,6 +42,7 @@ def exercise1():
 def exercise2():
     return render_template(
         'quote-of-the-day.html',
+        quote = random.choice(quotes),
         user=current_user
     )
 
@@ -49,12 +52,17 @@ def exercise2():
 @app.route('/restaurant-data/')
 @app.route('/restaurant-data')
 def exercise3():
-    search_term = 'pizza'
-    location = 'Evanston, Il'
+    args = request.args
+    location = args.get('location')
+    search_term = args.get('term')
+    if not (location and search_term):
+        return '"location" and "term" are required query parameters'
+    
     url = 'https://www.apitutor.org/yelp/simple/v3/businesses/search?location={0}&term={1}'.format(location, search_term)
     response = requests.get(url)
     data = response.json()
-    pprint(data) # for debugging -- prints the result to the command line
+    # pprint(data) # for debugging -- prints the result to the command line
+
     return json.dumps(data)
 
 ##############
