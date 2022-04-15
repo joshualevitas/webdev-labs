@@ -10,17 +10,23 @@ FROM users;
 
 
 -- Exercise 3
-
+SELECT jd, first_name, last_name
+FROM users 
+Order BY last_name;
 
 
 
 -- Exercise 4
-
+SELECT id, user_id, image_url
+FROM posts
+WHERE user_id = 26; 
 
 
 
 -- Exercise 5
-
+SELECT id, user_id, image_url
+FROM posts
+WHERE user_id = 26 or user_id = 12;
 
 
 
